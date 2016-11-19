@@ -9,6 +9,8 @@
     [DataContract]
     public class Currency
     {
+        private readonly IQuote quote;
+
         /// <summary>
         ///     Initializes a new instance of the <see cref="Currency"/> class.
         /// </summary>
@@ -19,7 +21,7 @@
         {
             this.ISOCode = isoCode;
             this.Name = name;
-            this.Quote = quote;
+            this.quote = quote;
         }
 
         [DataMember]
@@ -28,15 +30,13 @@
         [DataMember]
         public string Name { get; protected set; }
 
-        public IQuote Quote { get; set; }
-
         /// <summary>
         ///     Return latest currency quotation.
         /// </summary>
         /// <returns>Latest <see cref="Quotation"/></returns>
         public Task<Quotation> GetQuotationAsync()
         {
-            return this.Quote.GetQuotationAsync();
+            return this.quote.GetQuotationAsync();
         }
     }
 }
