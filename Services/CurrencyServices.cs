@@ -6,6 +6,7 @@
 
     using log4net;
     using Model;
+    using System;
 
     /// <summary>
     ///     Currency services singleton class.
@@ -74,6 +75,8 @@
         /// <returns>The specified <see cref="Currency"/></returns>
         public Currency GetCurrency(string isoCode)
         {
+            if (string.IsNullOrEmpty(isoCode)) throw new ArgumentNullException("isoCode is null");
+
             return this.currencies.FirstOrDefault(c => c.ISOCode == isoCode);
         }
     }

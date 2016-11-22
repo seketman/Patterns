@@ -45,6 +45,8 @@
         /// <returns>Parsed <see cref="Quotation"/></returns>
         private Quotation ParseReponseBody(string body)
         {
+            if (string.IsNullOrEmpty(body)) throw new ArgumentNullException("body is null");
+
             var arrBody = JsonConvert.DeserializeObject<dynamic>(body);
 
             // Parse buyers price (ex: "15.150")
