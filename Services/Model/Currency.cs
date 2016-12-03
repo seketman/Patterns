@@ -2,6 +2,7 @@
 {
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
+    using Utils;
 
     /// <summary>
     ///     Currency class
@@ -19,9 +20,9 @@
         /// <param name="quote">Quote provider</param>
         public Currency(string isoCode, string name, IQuote quote)
         {
-            this.ISOCode = isoCode;
-            this.Name = name;
-            this.quote = quote;
+            this.ISOCode = Check.NotNull(isoCode, nameof(isoCode));
+            this.Name = Check.NotNull(name, nameof(name));
+            this.quote = Check.NotNull(quote, nameof(quote));
         }
 
         [DataMember]
