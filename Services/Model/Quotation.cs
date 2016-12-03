@@ -17,6 +17,10 @@
         /// <param name="buyer">Buyer price</param>
         public Quotation(DateTime updatedAt, decimal seller, decimal buyer)
         {
+            if (updatedAt == null) throw new ArgumentNullException("updatedAt is null");
+            if (seller == 0) throw new ArgumentNullException("seller is null");
+            if (buyer == 0) throw new ArgumentNullException("buyer is null");
+
             this.UpdatedAt = updatedAt;
             this.Buyer = buyer;
             this.Seller = seller;

@@ -3,6 +3,7 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using Services;
+    using System;
 
     /// <summary>
     ///     Currencies controller class.
@@ -29,6 +30,8 @@
         [Route("{id}")]
         public IHttpActionResult GetCurrency(string id)
         {
+            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id is null");
+
             var currency = CurrencyServices.Inst.GetCurrency(id);
             if (currency == null)
             {
@@ -47,6 +50,8 @@
         [Route("{id}/quotation")]
         public async Task<IHttpActionResult> GetQuotation(string id)
         {
+            if (string.IsNullOrEmpty(id)) throw new ArgumentNullException("id is null");
+
             var currency = CurrencyServices.Inst.GetCurrency(id);
             if (currency == null)
             {

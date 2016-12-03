@@ -1,5 +1,6 @@
 ﻿namespace Services.Model
 {
+    using System;
     using System.Runtime.Serialization;
     using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@
     [DataContract]
     public class Currency
     {
-        private readonly IQuote quote;
+        private readonly IQuote Quote;
 
         /// <summary>
         ///     Initializes a new instance of the <see cref="Currency"/> class.
@@ -19,9 +20,13 @@
         /// <param name="quote">Quote provider</param>
         public Currency(string isoCode, string name, IQuote quote)
         {
+            if (isoCode == null) throw new ArgumentNullException("isoCode is null");
+            if (name == null) throw new ArgumentNullException("name is null");
+            if (quote == null) throw new ArgumentNullException("quote is null");
+
             this.ISOCode = isoCode;
             this.Name = name;
-            this.quote = quote;
+            this.Quote = quote;
         }
 
         [DataMember]
@@ -36,7 +41,7 @@
         /// <returns>Latest <see cref="Quotation"/></returns>
         public Task<Quotation> GetQuotationAsync()
         {
-            return this.quote.GetQuotationAsync();
+            return this.Quote.GetQuotationAsync();
         }
     }
 }
