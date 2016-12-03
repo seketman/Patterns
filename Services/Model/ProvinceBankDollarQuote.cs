@@ -1,10 +1,10 @@
 ﻿namespace Services.Model
 {
     using System;
+    using System.Diagnostics;
     using System.Globalization;
     using System.Net.Http;
     using System.Threading.Tasks;
-
     using Newtonsoft.Json;
 
     /// <summary>
@@ -28,7 +28,20 @@
         /// <returns>Latest <see cref="Quotation"/></returns>
         public async Task<Quotation> GetQuotationAsync()
         {
-            HttpResponseMessage response = await httpClient.GetAsync(ProvinceUri);
+            httpClient.DefaultRequestHeaders.Add("Accept", "application/json");
+            HttpResponseMessage response; // = await httpClient.GetAsync(ProvinceUri);
+
+            try
+            {
+                response = await Utils.HttpUtils.HttpRequestWithRetryAsync(httpClient, ProvinceUri);
+                Trace.WriteLine("Return from the service.", "Information");
+            }
+            catch (Exception ex)
+            {
+                Trace.WriteLine("Non-transient error, or retry count exceeded.", "Information");
+                throw;
+            }
+
             if (response.IsSuccessStatusCode)
             {
                 var body = await response.Content.ReadAsStringAsync();
